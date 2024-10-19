@@ -2,7 +2,6 @@ import {useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import articles from './ArticlesContent';
 import NotFoundPage from './NotFoundPage';
-import axios from "axios";
 
 const ArticlePage = () => {
     const {articleId} = useParams();
