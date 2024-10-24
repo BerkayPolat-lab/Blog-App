@@ -4,7 +4,6 @@ import {connectToDb, db} from "./db.js"
 const app = express();
 app.use(express.json());
 
-
 connectToDb(() => {
     console.log("Sucessfully connected to the mongoDB server.");
     app.listen(3000, () => {
@@ -54,17 +53,3 @@ app.post("/api/articles/:name/comments", async (req, res) => {
       }
 
 })
-
-// learning mongoDB.
-
-/* app.get("/hello/:name", (req, res) => {
-    const {name} = req.params;
-    res.send(`Hello, ${name}`);
-})
-
-app.post("/", (req, res) => {
-    res.send("GET request received.");
-    console.log(`Received. Welcome, ${req.body.name}`);
-})
-
-*/
