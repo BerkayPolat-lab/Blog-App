@@ -43,9 +43,8 @@ app.post("/api/articles/:name/comments", async (req, res) => {
           { name: name },
           { $push: { comments: { postedBy, text } } }
         );
-    
         const article = await db.collection("articles").findOne({ name: name });
-        res.send(article.comments);
+        res.json(article);
         
       } catch (error) {
         console.error(error);
