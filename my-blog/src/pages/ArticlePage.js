@@ -5,6 +5,7 @@ import NotFoundPage from './NotFoundPage';
 import axios from 'axios';
 import Loading from './Loading'
 import CommentsList from '../components/CommentsList';
+import AddCommentForm from '../components/AddCommentForm';
 
 const ArticlePage = () => {
     const {articleId} = useParams();
@@ -28,6 +29,22 @@ const ArticlePage = () => {
         fetchData();
     }, [articleId]);
 
+    /* const handleClick = () => {
+        setArticleInfo((prev) => ({
+            ...prev,
+            upvotes: prev.upvotes + 1
+        }));
+    }
+    */
+
+    const handleClick = async () => {
+        const response = await axios.put(`/api/articles/${articleId}/upvote`);
+        setArticleInfo((prev) => ({
+            ...prev,
+            upvotes: response.data
+        }));
+    }
+
     const article = articles.find(article => article.name === articleId);
     
     if (article === undefined) {
@@ -39,10 +56,14 @@ const ArticlePage = () => {
 
     return (<>
         <h1> {article.title} </h1>
-        <p> This article has {articleInfo.upvotes} upvote(s). </p>
+        <div className="upvotes-section"> 
+            <button onClick={handleClick}> Upvote </button>
+            <p> This article has {articleInfo.upvotes} upvote(s). </p>
+        </div>
         {article.content.map((paragraph, i) => (
             <p key={i}>{paragraph}</p>
         ))}
+        <AddCommentForm articleId={articleId} onArticleUpdated={(updatedArticle) => setArticleInfo(updatedArticle)}/>
         <CommentsList comments={articleInfo.comments} />
         </>
 
