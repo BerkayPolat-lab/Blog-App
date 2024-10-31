@@ -5,6 +5,8 @@ import Home from './Home';
 import About from './pages/About';
 import ArticlesListPage from './pages/ArticlesListPage';
 import ArticlePage from './pages/ArticlePage'
+import LoginPage from './pages/LoginPage';
+import CreateAccount from './pages/CreateAccount';
 import NavBar from './pages/Navbar';
 
 function App() {
@@ -18,6 +20,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/articles" element={<ArticlesListPage />} />
           <Route path="/articles/:articleId" element={<ArticlePage />} />
+          <Route path="/createaccount" element={<CreateAccount />} />
+          <Route path="/login" element={<LoginPage />} />
+
         </Routes>
       </div>
     </div>
