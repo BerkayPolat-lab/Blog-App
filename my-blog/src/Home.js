@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function Home() {
     return (<>
     <h1> Hello, welcome to my blog! </h1>
