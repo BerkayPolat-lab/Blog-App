@@ -8,6 +8,7 @@ import ArticlePage from './pages/ArticlePage'
 import LoginPage from './pages/LoginPage';
 import CreateAccount from './pages/CreateAccount';
 import NavBar from './pages/Navbar';
+import AddArticle from './components/AddArticle';
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
           <Route path="/articles/:articleId" element={<ArticlePage />} />
           <Route path="/createaccount" element={<CreateAccount />} />
           <Route path="/login" element={<LoginPage />} />
-
+          <Route path="/addarticle" element={<AddArticle />} />
         </Routes>
       </div>
     </div>

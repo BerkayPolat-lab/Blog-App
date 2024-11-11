@@ -11,6 +11,35 @@ connectToDb(() => {
     })
 })
 
+app.get("/api/articles/", async(req, res) => {
+    try {
+        const articles = await db.collection("articlesList").find().toArray();
+        console.log(articles);
+        if (articles.length > 0) {
+          res.json(articles);
+        } else {
+          res.status(404).send("Articles don't exist.");
+        }
+      } catch (error) {
+        res.status(500).send("Internal server error.");
+      }
+})
+
+  app.post("/api/articles/", async (req, res) => {
+    try {
+        const { name, title, content } = req.body;
+        const newArticle = { name, title, content: [content]};
+    
+        const result = await db.collection("articlesList").insertOne(newArticle);
+        const article = await db.collection("articlesList").findOne({_id: result.insertedId});
+        res.json(article);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+      }
+
+  })
+
 app.get("/api/articles/:name", async (req, res) => {
     const {name} = req.params;
     const article = await db.collection('articles').findOne({ name });
