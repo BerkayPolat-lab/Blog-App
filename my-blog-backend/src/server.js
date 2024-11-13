@@ -27,8 +27,8 @@ app.get("/api/articles/", async(req, res) => {
 
   app.post("/api/articles/", async (req, res) => {
     try {
-        const { name, title, content } = req.body;
-        const newArticle = { name, title, content: [content]};
+        const { name, title, content, upvotes, comments } = req.body;
+        const newArticle = { name, title, content: [content], upvotes: 0, comments: []};
     
         const result = await db.collection("articlesList").insertOne(newArticle);
         const article = await db.collection("articlesList").findOne({_id: result.insertedId});
@@ -37,12 +37,13 @@ app.get("/api/articles/", async(req, res) => {
         console.error(error);
         res.status(500).send("Internal Server Error");
       }
-
   })
+
+
 
 app.get("/api/articles/:name", async (req, res) => {
     const {name} = req.params;
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articlesList').findOne({ name });
     if (article) {
         res.json(article);
     } else {
@@ -53,12 +54,12 @@ app.get("/api/articles/:name", async (req, res) => {
 app.put("/api/articles/:name/upvote", async (req, res) => {
     const {name} = req.params;
 
-    const returnObject = await db.collection('articles').updateOne(
+    const returnObject = await db.collection('articlesList').updateOne(
         {name: name},
         {$inc: {upvotes: 1}}
     );
 
-    const article = await db.collection('articles').findOne({ name });
+    const article = await db.collection('articlesList').findOne({ name });
     res.json(article.upvotes);
 })
 
@@ -68,11 +69,11 @@ app.post("/api/articles/:name/comments", async (req, res) => {
         const { name } = req.params;
         const { postedBy, text } = req.body;
     
-        await db.collection("articles").updateOne(
+        await db.collection("articlesList").updateOne(
           { name: name },
           { $push: { comments: { postedBy, text } } }
         );
-        const article = await db.collection("articles").findOne({ name: name });
+        const article = await db.collection("articlesList").findOne({ name: name });
         res.json(article);
         
       } catch (error) {
